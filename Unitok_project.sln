@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unitok_project", "Unitok_progect\Unitok_project.csproj", "{B21604DD-3190-49D3-A635-27E92BB78A8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unitok.Infrastructure", "Unitok.Infrastructure\Unitok.Infrastructure.csproj", "{2FC31DF7-AB8F-46D5-8DBC-35CE7BF8B344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unitok.Application", "Unitok.Application\Unitok.Application.csproj", "{1E33FA74-4852-4F46-97A9-78BB4BA942ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unitok.Domain", "Unitok.Domain\Unitok.Domain.csproj", "{17DEDF16-FC1D-4177-810F-45F64945579A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unitok.Persistence", "Unitok.Persistence\Unitok.Persistence.csproj", "{D7EFBB38-DF26-43FB-B64E-8D96AFA535FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unitok.Shared", "Unitok.Shared\Unitok.Shared.csproj", "{5108B2EE-8C17-46F9-B0DB-2B0FDE13CA3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B21604DD-3190-49D3-A635-27E92BB78A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B21604DD-3190-49D3-A635-27E92BB78A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B21604DD-3190-49D3-A635-27E92BB78A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B21604DD-3190-49D3-A635-27E92BB78A8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FC31DF7-AB8F-46D5-8DBC-35CE7BF8B344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC31DF7-AB8F-46D5-8DBC-35CE7BF8B344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC31DF7-AB8F-46D5-8DBC-35CE7BF8B344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC31DF7-AB8F-46D5-8DBC-35CE7BF8B344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E33FA74-4852-4F46-97A9-78BB4BA942ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E33FA74-4852-4F46-97A9-78BB4BA942ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E33FA74-4852-4F46-97A9-78BB4BA942ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E33FA74-4852-4F46-97A9-78BB4BA942ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17DEDF16-FC1D-4177-810F-45F64945579A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17DEDF16-FC1D-4177-810F-45F64945579A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17DEDF16-FC1D-4177-810F-45F64945579A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17DEDF16-FC1D-4177-810F-45F64945579A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7EFBB38-DF26-43FB-B64E-8D96AFA535FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7EFBB38-DF26-43FB-B64E-8D96AFA535FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7EFBB38-DF26-43FB-B64E-8D96AFA535FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7EFBB38-DF26-43FB-B64E-8D96AFA535FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5108B2EE-8C17-46F9-B0DB-2B0FDE13CA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5108B2EE-8C17-46F9-B0DB-2B0FDE13CA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5108B2EE-8C17-46F9-B0DB-2B0FDE13CA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5108B2EE-8C17-46F9-B0DB-2B0FDE13CA3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {080D9AD7-DC73-49B7-9393-EEF70841C94A}
+	EndGlobalSection
+EndGlobal
