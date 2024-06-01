@@ -13,8 +13,15 @@ namespace Unitok_progect.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<Wallet> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Earnings).IsRequired().HasDefaultValue(0);
-        }
+			builder.HasKey(w => w.Id);
+			builder.Property(w => w.Id).UseIdentityColumn();
+			/*            builder.HasKey(x => x.Id);
+						builder.Property(x => x.Earnings).IsRequired().HasDefaultValue(0);*/
+			//builder.HasKey(x => x.Id);
+			/*			builder.HasOne(x => x.UserInfo)
+							.WithOne(x => x.Wallet)
+							.HasForeignKey<UserInfo>(x => x.WalletId)
+							.OnDelete(DeleteBehavior.Cascade);*/
+		}
     }
 }

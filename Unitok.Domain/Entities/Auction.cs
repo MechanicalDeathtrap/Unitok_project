@@ -10,8 +10,9 @@ namespace Unitok_progect.Domain.Entities
 {
     public class Auction : BaseEntity
     {
-        public int NftCardId { get; set; }
-        public NftCard NftCard { get; set; }
+        public int Id { get; set; }
+        //public int NftCardId { get; set; }
+        //public NftCard NftCard { get; set; }
         public decimal StartingPrice { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

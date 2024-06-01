@@ -9,6 +9,12 @@ namespace Unitok_progect.Domain.Entities
 {
     public class Wallet: BaseEntity
     {
-        public decimal Earnings { get; set; }
-    }
+		public int Id { get; set; }
+		public decimal Earnings { get; set; } = 0;
+		public int UserInfoId { get; set; }
+		public virtual UserInfo? UserInfo { get; set; }
+		/*        public decimal Earnings { get; set; } = 0;
+				public int UserInfoId { get; set; }
+				public UserInfo? UserInfo { get; set; }*/
+	}
 }

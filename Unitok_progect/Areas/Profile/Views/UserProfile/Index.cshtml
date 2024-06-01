@@ -1,0 +1,263 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Unitok_progect.Domain.Entities
+@inject SignInManager<UserMain> SignInManager
+@inject UserManager<UserMain> UserManager
+@* @model Unitok_project.Areas.Profile.Models.UserProfileModel *@
+
+@model Unitok.Application.DTOs.User.UserProfileDto
+
+@{
+	ViewData["Title"] = "Profile";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	var backgroundImage = "/img/bg/bg.png";
+	if (Model?.BackgroundImageUrl?.Length > 0 )
+	{
+		backgroundImage = Model.BackgroundImageUrl;
+	}
+	if (Model?.BackgroundImageData?.Length > 0)
+	{
+		backgroundImage = "data:image/jpeg;base64," + @Convert.ToBase64String(Model.BackgroundImageData);
+	}
+
+	var description = Model.Description.Length == 0 ? "Автор пока не написал ничего о себе" : Model.Description;
+
+	var avatar = "/img/avatars/avatar5.jpg";
+	if (Model?.AvatarImageUrl?.Length > 0){
+		avatar = Model.AvatarImageUrl;
+	}
+	if (Model?.AvatarImageData?.Length > 0)
+	{
+		avatar = "data:image/jpeg;base64," + @Convert.ToBase64String(Model.AvatarImageData);
+	}
+
+	//var backgroundImage = Model.User.BackgroundImageUrl is null ? "/img/bg/bg.png" : Model.User.BackgroundImageUrl;
+	//var avatarImage = "/img/avatars/avatar5.jpg";
+
+
+	//if (Model.User.AvatarImageUrl is not null)
+	//{
+	//	avatarImage = Model.User.AvatarImageUrl;
+	//}
+
+	
+	var atSign = "@";
+	//var description = Model.User.Description is null ? "Автор пока не написал ничего о себе" : Model.User.Description;
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<main class="main">
+	<div class="main__author" data-bg=@backgroundImage style="background: url(&quot;@backgroundImage&quot;) center center / cover no-repeat;"></div>
+	<div class="container">
+		<div class="row row--grid">
+			<div class="col-12 col-xl-3">
+				<div class="author author--page">
+					<div class="author__meta">
+						<a class="author__avatar author__avatar--verified">
+							<img style="width:160px; height:160px; overflow:hidden;" src=@avatar alt="avatar-image">
+						</a>
+						<h1 class="author__name"><a>@Model.FirstName @Model.LastName</a></h1> 
+						<h2 class="author__nickname"><a >@atSign@User.Identity.Name</a></h2>
+						<p class="author__text">@description</p>
+						<p class="author__text">@Model.WalletBalance ETH</p>
+
+						<div class="author__wrap">
+							<div class="author__followers">
+								<p>@Model.FollowersNumber</p>
+								<span>Followers</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-xl-9">
+				<div class="profile">
+					<!-- tabs nav -->
+					<ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">On Sale</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Created</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Settings</a>
+						</li>
+					</ul>
+					<!-- end tabs nav -->
+				</div>
+
+				<div class="tab-content">
+					<div class="tab-pane fade active show" id="tab-1" role="tabpanel">
+						<div class="row row--grid">
+							@if(Model.OwnedCards.Count == 0)
+							{
+								<h2 style="margin-left: 30%; margin-top: 30px">У автора нет работ пока...</h2>
+							}
+							else{
+							@foreach (var card in Model.OwnedCards)
+							{
+								var cardImage = card.Url is null ? "data:image/jpeg;base64," + @Convert.ToBase64String(card.ImageData) : card.Url;
+
+								<div class="col-12 col-sm-6 col-lg-4">
+									<!-- card -->
+									<div class="card">
+										<a href="/Explore/Card/@card.Id" class="card__cover">
+												<img style="height: 260.9px; width: 260.9px" src=@cardImage alt="nft-image">
+											@if (card.IsOnAuction)
+											{
+												var auction = Model.Auctions.Where(x => x.Id == card.AuctionId).First();
+												var timeLeft = auction.EndTime - auction.StartTime;
+
+												<span class="card__time card__time--clock">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.46777,8.39453l-.00225.00183-.00214.00208ZM18.42188,8.208a1.237,1.237,0,0,0-.23-.17481.99959.99959,0,0,0-1.39941.41114,5.78155,5.78155,0,0,1-1.398,1.77734,8.6636,8.6636,0,0,0,.1333-1.50977,8.71407,8.71407,0,0,0-4.40039-7.582,1.00009,1.00009,0,0,0-1.49121.80567A7.017,7.017,0,0,1,7.165,6.87793l-.23047.1875a8.51269,8.51269,0,0,0-1.9873,1.8623A8.98348,8.98348,0,0,0,8.60254,22.83594.99942.99942,0,0,0,9.98,21.91016a1.04987,1.04987,0,0,0-.0498-.3125,6.977,6.977,0,0,1-.18995-2.58106,9.004,9.004,0,0,0,4.3125,4.0166.997.997,0,0,0,.71534.03809A8.99474,8.99474,0,0,0,18.42188,8.208ZM14.51709,21.03906a6.964,6.964,0,0,1-3.57666-4.40234,8.90781,8.90781,0,0,1-.17969-.96387,1.00025,1.00025,0,0,0-.79931-.84473A.982.982,0,0,0,9.77,14.80957a.99955.99955,0,0,0-.8667.501,8.9586,8.9586,0,0,0-1.20557,4.71777,6.98547,6.98547,0,0,1-1.17529-9.86816,6.55463,6.55463,0,0,1,1.562-1.458.74507.74507,0,0,0,.07422-.05469s.29669-.24548.30683-.2511a8.96766,8.96766,0,0,0,2.89874-4.63269,6.73625,6.73625,0,0,1,1.38623,8.08789,1.00024,1.00024,0,0,0,1.18359,1.418,7.85568,7.85568,0,0,0,3.86231-2.6875,7.00072,7.00072,0,0,1-3.2793,10.457Z"></path></svg>
+													<span class="card__clock card__clock--2">@timeLeft</span>
+												</span>
+											}
+
+										</a>
+										<h3 class="card__title"><a href="Explore/Card/@card.Id">@card.Name</a></h3>
+										<div class="card__author card__author--verified">
+											<img src=@avatar alt="avatar-image">
+												<a style="color: #6164ff">@atSign@User.Identity.Name</a>
+										</div>
+										<div class="card__info">
+
+											@if (card.IsOnAuction)
+											{
+												var auction = Model.Auctions.Where(x => x.Id == card.AuctionId).First();
+												var bids = auction.Bids;
+												var price = bids.Count > 0 ? bids.OrderBy(x => x.Amount).Last().Amount : auction.StartingPrice;
+
+												<div class="card__price">
+													<span>Reserve price</span>
+													<span>4.89 ETH</span>
+												</div>
+											}
+
+											<div class="card__price">
+												<span>Fixed price</span>
+												<span>@card.Price ETH</span>
+											</div>
+										</div>
+									</div>
+									<!-- end card -->
+								</div>
+							}
+							}
+
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="tab-2" role="tabpanel">
+						<div class="row row--grid">
+							@if (Model.OwnedCards.Count == 0)
+							{
+								<h2 style="margin-left: 30%; margin-top: 30px">У автора нет работ пока...</h2>
+							}
+							else{
+							@foreach (var card in Model.CreatedCards)
+							{
+@* 								var ownerAuthor = Model.OtherAuthors.Where(x => x.Id == card.OwnerId).First();
+								var isOwnerAndCreatorSame = ownerAuthor.Id == Model.Id;
+
+								var image = ownerAuthor.AvatarImageUrl is null ? "data:image/jpeg;base64," + @Convert.ToBase64String(ownerAuthor.AvatarImageData) : ownerAuthor.AvatarImageUrl;
+								var ownerImage = isOwnerAndCreatorSame ? Model.AvatarImageUrl is null ? 
+																		"data:image/jpeg;base64," + @Convert.ToBase64String(Model.AvatarImageData) : Model.AvatarImageUrl : image;
+								var ownerImageData = ownerImage is null ? "img/avatars/avatar5.jpg" : ownerImage;
+									//var ownerName = isOwnerAndCreatorSame ? Model.NickName :  *@
+
+									var creator = Model.OtherAuthors.Where(x => x.Id == card.CreatorId).First();
+									var avatarImage = creator.Id == Model.Id ? Model.AvatarImageUrl.Length > 0 ? Model.AvatarImageUrl
+									: Model.AvatarImageData.Length > 0 ? "data:image/jpeg;base64," + @Convert.ToBase64String(Model.AvatarImageData)
+									: "img/avatars/avatar5.jpg" : avatar;
+									var nftImage = card.Url is not null ? card.Url : "data:image/jpeg;base64," + @Convert.ToBase64String(card.ImageData);
+									var isOwnerAndCreatorSame = card.OwnerId == Model.Id;
+
+
+							<div class="col-12 col-sm-6 col-lg-4">
+									<!-- card -->
+
+									<div class="card">
+										<a href="/Explore/Card/@card.Id" class="card__cover">
+											<img style ="height: 260.9px; width: 260.9px" src=@nftImage alt="nft-image">
+											@if (card.IsOnAuction)
+											{
+												var auction = Model.Auctions.Where(x => x.Id == card.AuctionId).First();
+												var timeLeft = auction.EndTime - auction.StartTime;
+
+												<span class="card__time card__time--clock">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.46777,8.39453l-.00225.00183-.00214.00208ZM18.42188,8.208a1.237,1.237,0,0,0-.23-.17481.99959.99959,0,0,0-1.39941.41114,5.78155,5.78155,0,0,1-1.398,1.77734,8.6636,8.6636,0,0,0,.1333-1.50977,8.71407,8.71407,0,0,0-4.40039-7.582,1.00009,1.00009,0,0,0-1.49121.80567A7.017,7.017,0,0,1,7.165,6.87793l-.23047.1875a8.51269,8.51269,0,0,0-1.9873,1.8623A8.98348,8.98348,0,0,0,8.60254,22.83594.99942.99942,0,0,0,9.98,21.91016a1.04987,1.04987,0,0,0-.0498-.3125,6.977,6.977,0,0,1-.18995-2.58106,9.004,9.004,0,0,0,4.3125,4.0166.997.997,0,0,0,.71534.03809A8.99474,8.99474,0,0,0,18.42188,8.208ZM14.51709,21.03906a6.964,6.964,0,0,1-3.57666-4.40234,8.90781,8.90781,0,0,1-.17969-.96387,1.00025,1.00025,0,0,0-.79931-.84473A.982.982,0,0,0,9.77,14.80957a.99955.99955,0,0,0-.8667.501,8.9586,8.9586,0,0,0-1.20557,4.71777,6.98547,6.98547,0,0,1-1.17529-9.86816,6.55463,6.55463,0,0,1,1.562-1.458.74507.74507,0,0,0,.07422-.05469s.29669-.24548.30683-.2511a8.96766,8.96766,0,0,0,2.89874-4.63269,6.73625,6.73625,0,0,1,1.38623,8.08789,1.00024,1.00024,0,0,0,1.18359,1.418,7.85568,7.85568,0,0,0,3.86231-2.6875,7.00072,7.00072,0,0,1-3.2793,10.457Z"></path></svg>
+													<span class="card__clock card__clock--2">@timeLeft</span>
+												</span>
+											}
+
+										</a>
+										<h3 class="card__title"><a href="/Explore/Card/@card.Id">@card.Name</a></h3>
+										<div class="card__author card__author--verified">
+											<img src=@avatarImage alt="avatar-image">
+												<a style="color: #6164ff">@atSign@User.Identity.Name</a>
+										</div>
+										<div class="card__info">
+
+											@if (card.IsOnAuction)
+											{
+												var auction = Model.Auctions.Where(x => x.Id == card.AuctionId).First();
+												var bids = auction.Bids;
+												var price = bids.Count > 0 ? bids.OrderBy(x => x.Amount).Last().Amount : auction.StartingPrice;
+
+												<div class="card__price">
+													<span>Reserve price</span>
+													<span>4.89 ETH</span>
+												</div>
+											}
+
+													<div class="card__price">
+														<span>Fixed price</span>
+														<span>@card.Price ETH</span>
+													</div>
+											
+@* 											@if (creator.Id != Model.Id)
+											{
+												<div class="card__price">
+													<span>Was sold to</span>
+													<a href="/Authors/Author/@creator.Id">@atSign@creator.NickName</a>
+												</div>
+											}
+											else{
+											<div class="card__price">
+												<span>Fixed price</span>
+												<span>@card.Price ETH</span>
+											</div>
+											} *@
+
+										</div>
+									</div>
+									<!-- end card -->
+								</div>
+							}}
+						</div>
+
+
+					</div>
+
+					<div class="tab-pane fade" id="tab-4" role="tabpanel">
+						@await Html.PartialAsync("UpdateProfile")
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="~/js/jquery-3.5.1.min.js"></script>
+	<script src="~/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/owl.carousel.min.js"></script>
+	<script src="~/js/jquery.magnific-popup.min.js"></script>
+	<script src="~/js/select2.min.js"></script>
+	<script src="~/js/smooth-scrollbar.js"></script>
+	<script src="~/js/jquery.countdown.min.js"></script>
+	<script src="~/js/main.js"></script>
+</main>

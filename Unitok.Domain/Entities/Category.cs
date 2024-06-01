@@ -9,6 +9,7 @@ namespace Unitok_progect.Domain.Entities
 {
     public class Category: BaseEntity
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public List<NftCard> NftCards { get; set; } = new List<NftCard>();
 /*        public enum CategoryType

@@ -8,11 +8,11 @@ namespace Unitok_progect.Persistence.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
+/*        public static void AddPersistencLayer(this IServiceCollection services, IConfiguration configuration)
         {
             //services.AddMappings();
             services.AddDbContext(configuration);
-/*            services.AddRepositories();*/
+            services.AddRepositories();
         }
 
         //private static void AddMappings(this IServiceCollection services)
@@ -26,15 +26,15 @@ namespace Unitok_progect.Persistence.Extensions
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
-/*            services.AddDbContext<ApplicationDbContext>();*/
-            /*            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ApplicationDbContext>();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-                        services.AddDbContext<ApplicationDbContext>(options =>
-                           options.UseSqlServer(connectionString,
-                               builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));*/
+            services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseSqlServer(connectionString,
+                   builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
 
-/*        private static void AddRepositories(this IServiceCollection services)
+        private static void AddRepositories(this IServiceCollection services)
         {
             services
                 .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))

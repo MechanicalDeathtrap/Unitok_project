@@ -9,10 +9,11 @@ namespace Unitok_progect.Domain.Entities
 {
     public class Bid : BaseEntity
     {
-        public int AuctionId { get; set; }
+        public int Id { get; set; }
+        //public int AuctionId { get; set; }
         public Auction Auction { get; set; }
-        public int UserId { get; set; }
-        public UserInfo User { get; set; }
+        //public string UserId { get; set; }
+        public UserMain User { get; set; }
         public decimal Amount { get; set; }
         public DateTime BidTime { get; set; }
     }

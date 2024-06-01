@@ -13,7 +13,7 @@ namespace Unitok_progect.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<Auction> builder)
         {
-            builder.HasKey(x => x.Id);
+/*            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.StartingPrice).IsRequired();
             builder.Property(x => x.StartTime).IsRequired();
@@ -25,7 +25,7 @@ namespace Unitok_progect.Persistence.Configuration
 
             builder.HasMany(x => x.Bids)
                 .WithOne(x => x.Auction)
-                .HasForeignKey(x => x.AuctionId).OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(x => x.AuctionId).OnDelete(DeleteBehavior.NoAction);*/
         }
     }
 }

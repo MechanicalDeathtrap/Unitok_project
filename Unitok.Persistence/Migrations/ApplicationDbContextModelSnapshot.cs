@@ -22,6 +22,139 @@ namespace Unitok.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
             modelBuilder.Entity("Unitok_progect.Domain.Entities.Auction", b =>
                 {
                     b.Property<int>("Id")
@@ -33,9 +166,6 @@ namespace Unitok.Persistence.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NftCardId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
@@ -43,9 +173,6 @@ namespace Unitok.Persistence.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("NftCardId")
-                        .IsUnique();
 
                     b.ToTable("Auctions");
                 });
@@ -141,6 +268,9 @@ namespace Unitok.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AuctionId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
@@ -148,16 +278,13 @@ namespace Unitok.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<bool>("IsOnAuction")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -167,53 +294,158 @@ namespace Unitok.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserInfoId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("isOnSale")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("ImageId")
-                        .IsUnique();
-
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserInfoId");
 
                     b.ToTable("NftCards");
-                });
 
-            modelBuilder.Entity("Unitok_progect.Domain.Entities.StaticFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Extension")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StaticFiles");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            CreatorId = 1,
+                            Description = "A unique Batman NFT.",
+                            IsOnAuction = false,
+                            Name = "Batman NFT",
+                            OwnerId = 1,
+                            Price = 5m,
+                            Url = "https://distribution.faceit-cdn.net/images/75fe87cc-b5d1-4f71-93cd-c2b9fe7af841.jpeg",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 2,
+                            CreatorId = 2,
+                            Description = "A rare dragon NFT.",
+                            IsOnAuction = false,
+                            Name = "Dragon NFT",
+                            OwnerId = 2,
+                            Price = 7m,
+                            Url = "https://i1.sndcdn.com/artworks-onlDHx9qCyyAiQKe-VN1gDg-t500x500.jpg",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            CreatorId = 3,
+                            Description = "An exclusive anime girl NFT.",
+                            IsOnAuction = false,
+                            Name = "Anime girl NFT",
+                            OwnerId = 3,
+                            Price = 6m,
+                            Url = "https://yt3.googleusercontent.com/ytc/AGIKgqPFf6TUkWcK-Rnc55WHy_VnMm2szMdQzn4gDpyc=s900-c-k-c0x00ffffff-no-rj",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 3,
+                            CreatorId = 1,
+                            Description = "A creature NFT.",
+                            IsOnAuction = false,
+                            Name = "Creature NFT",
+                            OwnerId = 3,
+                            Price = 1m,
+                            Url = "https://cryptogamingpool.com/wp-content/uploads/2019/04/1-2.png",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 4,
+                            CreatorId = 3,
+                            Description = "An exclusive angel NFT.",
+                            IsOnAuction = false,
+                            Name = "Angel NFT",
+                            OwnerId = 3,
+                            Price = 3.1m,
+                            Url = "https://avatars.steamstatic.com/ac270a27d12d0f861ce077ac1a629e55c55351f3_full.jpg",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 1,
+                            CreatorId = 1,
+                            Description = "A really cool man NFT.",
+                            IsOnAuction = false,
+                            Name = "Cool Man NFT",
+                            OwnerId = 1,
+                            Price = 1.2m,
+                            Url = "https://sun9-59.userapi.com/impg/UpcGRYwtgRL_kcPHGeD5NTsVmMa8aMdVWYsyLQ/bNLzvEk1XCw.jpg?size=720x720&quality=96&sign=97b6cdb8e8f71015f6bed868d89b363f&c_uniq_tag=k0LY6M1R0iv4A7eBylnKBHsFxyY7yioOrbpOdkksGHE&type=album",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 6,
+                            CreatorId = 2,
+                            Description = "An exclusive abstract NFT.",
+                            IsOnAuction = false,
+                            Name = "Abstract NFT",
+                            OwnerId = 2,
+                            Price = 2.5m,
+                            Url = "https://www.zonted.com/content/images/2021/01/finalfaces.jpg",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 3,
+                            CreatorId = 3,
+                            Description = "An ordinary pixel girl NFT.",
+                            IsOnAuction = false,
+                            Name = "Pixel girl NFT",
+                            OwnerId = 3,
+                            Price = 1.1m,
+                            Url = "https://steamuserimages-a.akamaihd.net/ugc/1841408372762079463/519B71A05D66A510E0D830144115136DBA8BED9B/?imw=512&amp;imh=512&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 7,
+                            CreatorId = 3,
+                            Description = "Famous mem NFT.",
+                            IsOnAuction = false,
+                            Name = "Mem NFT",
+                            OwnerId = 3,
+                            Price = 0.8m,
+                            Url = "https://images.squarespace-cdn.com/content/v1/613978bc7e5cf900cb25f3a9/84fc103a-9868-4bfe-9138-e033eee3670d/Screen+Shot+2022-04-27+at+8.46.08+PM.png",
+                            isOnSale = false
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 1,
+                            CreatorId = 1,
+                            Description = "Really authetic NFT picture.",
+                            IsOnAuction = false,
+                            Name = "Statue NFT",
+                            OwnerId = 1,
+                            Price = 1m,
+                            Url = "https://elearning.hse.ru/mirror/pubs/share/540771847",
+                            isOnSale = false
+                        });
                 });
 
             modelBuilder.Entity("Unitok_progect.Domain.Entities.UserInfo", b =>
@@ -224,45 +456,220 @@ namespace Unitok.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AvatarImageId")
+                    b.Property<byte[]>("AvatarImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("AvatarImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("BackgroundImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("BackgroundImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("BackgroundImageId")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FollowersNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NickName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WalletId")
+                    b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AvatarImageId")
-                        .IsUnique();
-
-                    b.HasIndex("BackgroundImageId")
-                        .IsUnique();
-
-                    b.HasIndex("WalletId");
-
                     b.ToTable("UserInfos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AvatarImageUrl = "https://pristor.ru/wp-content/uploads/2019/08/%D0%9A%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%83-%D0%B2-%D0%92%D0%9A-%D0%B4%D0%BB%D1%8F-%D0%B4%D0%B5%D0%B2%D1%83%D1%88%D0%B5%D0%BA-%D0%BA%D1%80%D1%83%D1%82%D1%8B%D0%B5-%D0%B8-%D0%BD%D0%B0%D1%80%D0%B8%D1%81%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-21.jpg",
+                            Description = "Моё величайшее хобби - digital art!",
+                            Email = "user1@example.com",
+                            FirstName = "Olivia",
+                            FollowersNumber = 0,
+                            LastName = "Martinez",
+                            NickName = "OlivMar"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AvatarImageUrl = "https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666272848_46-mykaleidoscope-ru-p-krasavchik-otkritki-vkontakte-55.jpg",
+                            BackgroundImageUrl = "https://2017com.xinnet.com/images/page3_bg_bot.jpg",
+                            Description = "Создаю nft ради денег",
+                            Email = "user2@example.com",
+                            FirstName = "Koteki",
+                            FollowersNumber = 0,
+                            LastName = "Luchshie",
+                            NickName = "CatGod"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Лень заполнять профиль",
+                            Email = "user3@example.com",
+                            FirstName = "Empty",
+                            FollowersNumber = 0,
+                            LastName = "EmptyX2",
+                            NickName = "Void"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AvatarImageUrl = "https://dashboard.gamaads.com/assets/images/reviews/1.jpg",
+                            BackgroundImageUrl = "https://2017com.xinnet.com/images/page3_bg_bot.jpg",
+                            Description = "Work! Work! Work!",
+                            Email = "user4@example.com",
+                            FirstName = "Alexey",
+                            FollowersNumber = 0,
+                            LastName = "Lobanov",
+                            NickName = "Ghost"
+                        });
+                });
+
+            modelBuilder.Entity("Unitok_progect.Domain.Entities.UserMain", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("UserInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserInfoId")
+                        .IsUnique()
+                        .HasFilter("[UserInfoId] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "801136c6-1c83-4fe3-a3f4-0f3a9c39c8e5",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEBdQGmFJn9xYaEYZpIldC41h8TRZU4gAkFaE+V/E2lgxmWF5Qozef0gYSjxi70YcZA==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b71009c7-bafe-46b6-ae8c-8f866addbd6e",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEGp9n4BUylzCERUnfw26s8fGaAexVTly10QtDg/behcYPRh8QRPeckWbJW1qO/UmxA==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "71ba5729-253e-4e7a-a15f-b083a98ca0f3",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEN5YXXK8HYYNGOXBN3RptgpcwYnNtYjc29hwjonMxJqs9Je4v5eusyhVcZdluni3uw==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7c4c0be6-1006-4c93-bd13-f7988c0a1a22",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEDPp/6hylc291WMLXKCqlrJ8CyZxwX6i9byKaO4wMgKINrGcw+TOhetkCT8I36937Q==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
+                        });
                 });
 
             modelBuilder.Entity("Unitok_progect.Domain.Entities.Wallet", b =>
@@ -274,24 +681,94 @@ namespace Unitok.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Earnings")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserInfoId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserInfoId")
+                        .IsUnique();
+
                     b.ToTable("Wallets");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Earnings = 100m,
+                            UserInfoId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Earnings = 20m,
+                            UserInfoId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Earnings = 37m,
+                            UserInfoId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Earnings = 32m,
+                            UserInfoId = 4
+                        });
                 });
 
-            modelBuilder.Entity("Unitok_progect.Domain.Entities.Auction", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Unitok_progect.Domain.Entities.NftCard", "NftCard")
-                        .WithOne("Auction")
-                        .HasForeignKey("Unitok_progect.Domain.Entities.Auction", "NftCardId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("Unitok_progect.Domain.Entities.UserMain", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("Unitok_progect.Domain.Entities.UserMain", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("NftCard");
+                    b.HasOne("Unitok_progect.Domain.Entities.UserMain", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("Unitok_progect.Domain.Entities.UserMain", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Unitok_progect.Domain.Entities.Bid", b =>
@@ -302,10 +779,10 @@ namespace Unitok.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Unitok_progect.Domain.Entities.UserInfo", "User")
+                    b.HasOne("Unitok_progect.Domain.Entities.UserMain", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -315,62 +792,41 @@ namespace Unitok.Persistence.Migrations
 
             modelBuilder.Entity("Unitok_progect.Domain.Entities.NftCard", b =>
                 {
+                    b.HasOne("Unitok_progect.Domain.Entities.Auction", "Auction")
+                        .WithMany()
+                        .HasForeignKey("AuctionId");
+
                     b.HasOne("Unitok_progect.Domain.Entities.Category", "Category")
                         .WithMany("NftCards")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Unitok_progect.Domain.Entities.UserInfo", "Creator")
-                        .WithMany("NftCreatedCollection")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.HasOne("Unitok_progect.Domain.Entities.UserInfo", null)
+                        .WithMany("NftCollection")
+                        .HasForeignKey("UserInfoId");
 
-                    b.HasOne("Unitok_progect.Domain.Entities.StaticFile", "Image")
-                        .WithOne("Card")
-                        .HasForeignKey("Unitok_progect.Domain.Entities.NftCard", "ImageId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Unitok_progect.Domain.Entities.UserInfo", "Owner")
-                        .WithMany("NftOnSaleCollection")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Navigation("Auction");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Image");
-
-                    b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Unitok_progect.Domain.Entities.UserInfo", b =>
+            modelBuilder.Entity("Unitok_progect.Domain.Entities.UserMain", b =>
                 {
-                    b.HasOne("Unitok_progect.Domain.Entities.StaticFile", "AvatarImage")
-                        .WithOne()
-                        .HasForeignKey("Unitok_progect.Domain.Entities.UserInfo", "AvatarImageId")
+                    b.HasOne("Unitok_progect.Domain.Entities.UserInfo", "UserInfo")
+                        .WithOne("User")
+                        .HasForeignKey("Unitok_progect.Domain.Entities.UserMain", "UserInfoId");
+
+                    b.Navigation("UserInfo");
+                });
+
+            modelBuilder.Entity("Unitok_progect.Domain.Entities.Wallet", b =>
+                {
+                    b.HasOne("Unitok_progect.Domain.Entities.UserInfo", "UserInfo")
+                        .WithOne("Wallet")
+                        .HasForeignKey("Unitok_progect.Domain.Entities.Wallet", "UserInfoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Unitok_progect.Domain.Entities.StaticFile", "BackgroundImage")
-                        .WithOne()
-                        .HasForeignKey("Unitok_progect.Domain.Entities.UserInfo", "BackgroundImageId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Unitok_progect.Domain.Entities.Wallet", "Wallet")
-                        .WithMany()
-                        .HasForeignKey("WalletId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AvatarImage");
-
-                    b.Navigation("BackgroundImage");
-
-                    b.Navigation("Wallet");
+                    b.Navigation("UserInfo");
                 });
 
             modelBuilder.Entity("Unitok_progect.Domain.Entities.Auction", b =>
@@ -383,23 +839,15 @@ namespace Unitok.Persistence.Migrations
                     b.Navigation("NftCards");
                 });
 
-            modelBuilder.Entity("Unitok_progect.Domain.Entities.NftCard", b =>
-                {
-                    b.Navigation("Auction")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Unitok_progect.Domain.Entities.StaticFile", b =>
-                {
-                    b.Navigation("Card")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Unitok_progect.Domain.Entities.UserInfo", b =>
                 {
-                    b.Navigation("NftCreatedCollection");
+                    b.Navigation("NftCollection");
 
-                    b.Navigation("NftOnSaleCollection");
+                    b.Navigation("User")
+                        .IsRequired();
+
+                    b.Navigation("Wallet")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

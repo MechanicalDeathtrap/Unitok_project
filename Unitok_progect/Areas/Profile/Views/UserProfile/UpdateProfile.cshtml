@@ -1,0 +1,76 @@
+﻿@model Unitok.Application.DTOs.User.UserProfileDto
+@{
+	
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+<div class="row row--grid">
+	<!-- details form -->
+	<div class="col-12 col-lg-6">
+		<form asp-action="UpdateProfile" enctype="multipart/form-data" method="post" class="sign__form sign__form--profile">
+			<div class="row">
+				<div class="col-12">
+					<h4 class="sign__title">Profile details</h4>
+				</div>
+
+@* 				<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+					<div class="sign__group">
+						<label asp-for="NickName"  class="sign__label" for="NickName">Login</label>
+						<input  id="NickName" type="text" name="NickName" class="sign__input" placeholder="User123">
+
+					</div>
+				</div> *@
+
+				<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+					<div class="sign__group">
+						<label asp-for="FirstName" class="sign__label" for="FirstName">First name</label>
+						<input id="FirstName" type="text" name="FirstName" class="sign__input" placeholder="John">
+					</div>
+				</div>
+
+				<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+					<div class="sign__group">
+						<label asp-for="LastName" class="sign__label" for="LastName">Last name</label>
+						<input id="LastName" type="text" name="LastName" class="sign__input" placeholder="Doe">
+					</div>
+				</div>
+
+				<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+					<label style="margin-left: 20px; color: #BDBDBD; font-size: 14px; margin-bottom: 5px">Avatar Image</label>
+					<div class="sign__file" >
+						<label id="file3" for="avatar" class="sign__label">Image</label>
+						<input id="avatar" data-name="#file3" asp-for="AvatarImageFile" type="file" class="sign__file-upload" accept=".png,.jpg,.jpeg">
+@* 
+						<label id="file1" for="avatar"  class="sign__label">Image</label>
+						<input id="avatar" data-name="#file1" asp-for="AvatarImageFile" type="file" name="avatar" class="sign__file-upload" accept=".png,.jpg,.jpeg"> *@
+					</div>
+				</div>
+
+				<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+					<label style="margin-left: 20px; color: #BDBDBD; font-size: 14px; margin-bottom: 5px">Background Image</label>
+					<div class="sign__file">
+						<label id="file4" for="background" class="sign__label">Image</label>
+						<input id="background" data-name="#file4" asp-for="BackgroundImageFile" type="file" class="sign__file-upload" accept=".png,.jpg,.jpeg">
+@* 
+						<label id="file2" class="sign__label" for="background" >Image</label>
+						<input data-name="#file2" id="background" asp-for="BackgroundImageFile" type="file" name="background"  class="sign__input" accept=".png,.jpg,.jpeg"> *@
+					</div>
+				</div>
+
+				<div  style="width: 100%; padding: 0px 10px 0px 10px;">
+					<div class="sign__group" style="width: 100%">
+						<label class="sign__label" for="description">About yourself</label>
+						<textarea asp-for="Description" id="description" type="text" name="description" style="width: 100%" class="sign__input" placeholder=""></textarea>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<button class="sign__btn" type="submit">Save</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- end details form -->
+	<!-- password form -->
+</div>

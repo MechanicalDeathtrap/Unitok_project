@@ -9,5 +9,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Unitok.Application\Unitok.Application.csproj" />
+		<ProjectReference Include="..\Unitok.Persistence\Unitok.Persistence.csproj" />
 	</ItemGroup>
 </Project>

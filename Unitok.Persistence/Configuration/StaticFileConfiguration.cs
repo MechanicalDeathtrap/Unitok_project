@@ -13,12 +13,12 @@ namespace Unitok_progect.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<StaticFile> builder)
         {
-            builder.HasKey(x => x.Id);
+/*            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Name).HasMaxLength(200);
             builder.Property(x => x.Path).IsRequired();
             builder.Property(x => x.Extension).HasMaxLength(10);
-            builder.HasOne(x => x.Card).WithOne(x => x.Image).HasForeignKey<NftCard>(x => x.ImageId);
+            builder.HasOne(x => x.Card).WithOne(x => x.Image).HasForeignKey<NftCard>(x => x.ImageId);*/
 
         }
     }

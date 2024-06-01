@@ -16,6 +16,7 @@ namespace Unitok_progect.Domain.Entities
             Extension = name.Split('.').LastOrDefault();
         }
 
+        public int Id { get; set; }
         public StaticFile() { }
         public string Path { get; set; }
         public string Name { get; set; }
@@ -23,6 +24,6 @@ namespace Unitok_progect.Domain.Entities
 
 
         // relationships
-        public NftCard Card { get; set; }
+        //public NftCard Card { get; set; }
     }
 }
